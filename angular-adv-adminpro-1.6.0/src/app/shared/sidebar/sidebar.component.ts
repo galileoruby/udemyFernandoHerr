@@ -1,19 +1,18 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { SidebarService } from '../../pages/account-settings/services/sidebar.service';
 
 @Component({
   selector: 'app-sidebar',
   templateUrl: './sidebar.component.html',
-  styles: [  ]
+  styles: []
 })
 export class SidebarComponent implements OnInit {
-  menuItems : any [] = [];
+  menuItems: any[] = [];
 
-  constructor(private sideBarService: SidebarService) {
-    this.menuItems= sideBarService.menu;
-   }
-
-  ngOnInit(): void {
+  constructor(private sideBarService: SidebarService, public router: Router) {
+    this.menuItems = sideBarService.menu;
   }
-
+  
+  ngOnInit(): void { }
 }

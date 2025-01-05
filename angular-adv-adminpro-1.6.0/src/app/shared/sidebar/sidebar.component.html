@@ -31,9 +31,17 @@
                                 {{currenItem.submenu.length}}
                             </span></span>
                     </a>
-                    <ul aria-expanded="false" class="collapse">
-                        <li *ngFor="let subMenuCurrent  of currenItem.submenu">
-                            <a [routerLink]="subMenuCurrent.url"> {{subMenuCurrent.titulo}} </a>
+                    <ul aria-expanded="false" class="collapse" >
+                        <li *ngFor="let subMenuCurrent  of currenItem.submenu"
+                        >
+                            <a 
+                                [routerLink]="subMenuCurrent.url" 
+                                routerLinkActive="active" 
+                                #rla="routerLinkActive"
+                                [routerLinkActiveOptions]="{exact:true}"                            
+                            >
+                                 {{subMenuCurrent.titulo}}
+                            </a>
                         </li>
                     </ul>
                 </li>
