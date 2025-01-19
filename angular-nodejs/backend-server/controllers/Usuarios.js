@@ -4,14 +4,23 @@ const encriptadorJs = require('bcryptjs');
 const { generarJWT } = require('../helpers/jwt');
 
 const getUsuarios = async (req, res) => {
-    const usuarios = await Usuario.find({}, "nombre email role password");
+    const desde = Number(req.query.desde) || 0;
+
+    const [usuarios, total] = await Promise.all(
+        [
+            Usuario
+                .find({}, "nombre email role password")
+                .skip(desde)
+                .limit(5),
+            Usuario.countDocuments()
+        ]);
 
     res.json({
         usuarios,
-        uid: req.id
-    })
+        uid: req.id,
+        total
+    });
 }
-
 
 const crearUsuario = async (req, res = response) => {
     const { email, password } = req.body;
@@ -22,7 +31,7 @@ const crearUsuario = async (req, res = response) => {
             return res.status(400).json({
                 ok: false,
                 msg: `El Correo ${email} ya existe. intentar con otro por favor.`
-            })
+            });
         }
 
         const usuario = new Usuario(req.body);
@@ -75,7 +84,6 @@ const actualizarUsuario = async (req, res = response) => {
         }
 
         campos.email = email;
-
         const usuarioActualizado = await Usuario.findByIdAndUpdate(uid, campos, { new: true });
 
         res.json({
@@ -97,19 +105,18 @@ const borrarUsuario = async (req, res = response) => {
 
     try {
         const usuarioDb = await Usuario.findById(id);
-
         if (!usuarioDb) {
             return res.status(400).json({
                 ok: false,
                 msg: `Usuario con este identificador no existe.`
-            })
+            });
         }
 
         await Usuario.findByIdAndDelete(id);
 
         res.json({
             ok: true,
-            msg:'Usuario borrado exitosamente'
+            msg: 'Usuario borrado exitosamente'
         });
     } catch (error) {
         console.log(error);
