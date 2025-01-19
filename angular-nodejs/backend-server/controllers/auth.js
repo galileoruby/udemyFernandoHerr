@@ -2,6 +2,7 @@ const { response } = require('express');
 const Usuario = require('../models/Usuario');
 const encriptadorJs = require('bcryptjs');
 const { generarJWT } = require('../helpers/jwt');
+const { googleVerify } = require('../helpers/google-verify');
 
 const loginUser = async (req, res = response) => {
 
@@ -24,7 +25,6 @@ const loginUser = async (req, res = response) => {
                 ok: true,
                 msg: 'Contraseña no valida'
             });
-
         }
 
         //genera token jwt 
@@ -44,6 +44,42 @@ const loginUser = async (req, res = response) => {
     }
 }
 
+const logingGoogle = async (req, res = response) => {
+
+    try {
+        const { name, email, picture } = await googleVerify(req.body.token);
+        const usuarioDb = await Usuario.findOne({ email });
+        let usuario;
+
+        if (!usuarioDb) {
+            usuario = new Usuario({
+                nombre: name,
+                email,
+                password: '@@@@@',
+                img: picture,
+                google: true
+            });
+        } else {
+            usuario = usuarioDb;
+            usuario.google = true;
+        }
+
+        await usuario.save();
+        const token = await generarJWT(usuario.id);
+        res.status(200).json({
+            ok: true,
+            token
+        });
+    } catch (error) {
+        console.log('Error google ', error)
+        res.status(500).json({
+            ok: true,
+            msg: 'Hable con administrador'
+        });
+    }
+}
+
 module.exports = {
-    loginUser
+    loginUser,
+    logingGoogle
 }
