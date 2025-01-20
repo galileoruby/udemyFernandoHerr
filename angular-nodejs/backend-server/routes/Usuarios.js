@@ -1,23 +1,22 @@
-const { Router } = require('express')
+const { Router } = require('express');
 const router = Router();
-const { check, param } = require('express-validator')
-const { validarJWT } = require('../middlewares/validar-JWT')
+const { check, param } = require('express-validator');
+const { validarJWT } = require('../middlewares/validar-JWT');
 
 const {
     getUsuarios,
     crearUsuario,
     actualizarUsuario,
     borrarUsuario
-} = require('../controllers/Usuarios')
+} = require('../controllers/Usuarios');
 const { validarCampos } = require('../middlewares/validar-campos');
 
 /*
     api: ruta/(s7arjsoij)
 */
 
-router.get('/', [
-    validarJWT
-],
+router.get('/',
+    [validarJWT],
     getUsuarios);
 
 router.post('/',
@@ -27,9 +26,7 @@ router.post('/',
         check('password', 'Password es requerido').not().isEmpty(),
         check('email', 'email es requerido').isEmail(),
         validarCampos
-    ], crearUsuario)
-
-
+    ], crearUsuario);
 
 router.put('/:id',
     [
@@ -45,9 +42,8 @@ router.put('/:id',
         check('nombre', 'Nombre es requerido').not().isEmpty(),
         check('email', 'email es requerido').isEmail(),
         check('role', 'Role es obligatorio').not().isEmpty(),
-
         validarCampos
-    ], actualizarUsuario)
+    ], actualizarUsuario);
 
 
 router.delete('/:id', [
@@ -57,6 +53,6 @@ router.delete('/:id', [
         .withMessage('El id proporcionado no es un identificador valido'),
     validarCampos
 ],
-    borrarUsuario)
+    borrarUsuario);
 
 module.exports = router;

@@ -7,8 +7,8 @@ const getHospitales = async (req, res) => {
     // const usuarios = await Hospital.find({}, "nombre email role password");
     try {
         const hospitales = await Hospital
-                        .find({})
-                        .populate('usuario','nombre img');
+            .find({})
+            .populate('usuario', 'nombre img');
 
         res.status(500).json({
             ok: true,
@@ -23,9 +23,8 @@ const getHospitales = async (req, res) => {
     }
 }
 
-
 const crearHospital = async (req, res = response) => {
-    try {        
+    try {
         const idUsuario = req.id;
         const currentHospitalDb = new Hospital({
             usuario: idUsuario,
@@ -37,7 +36,7 @@ const crearHospital = async (req, res = response) => {
             ok: true,
             hospital: currentHospitalDb
         });
-    } catch (error) {    
+    } catch (error) {
         res.status(500).json({
             ok: false,
             msg: 'Error al crear hospital'
@@ -46,17 +45,69 @@ const crearHospital = async (req, res = response) => {
 }
 
 const actualizarHospital = async (req, res = response) => {
-    res.json({
-        ok: true,
-        msg: ' actualizarHospital'
-    });
+    const hospitalId = req.params.id;
+    const idUsuario = req.uid;
+
+    try {
+        const hospitalDb = await Hospital.findById(hospitalId);
+
+        if (!hospitalDb) {
+            return res.status(404).json({
+                ok: false,
+                msg: 'Hospital no encontrado.'
+            });
+        }
+
+        const cambiosHospital = {
+            ...req.body,
+            usuario: idUsuario
+        };
+
+        const hospitalActualizado = await Hospital.findByIdAndUpdate(hospitalId, cambiosHospital, { new: true });
+
+
+        return res.json({
+            ok: true,
+            msg: ' actualizarHospital',
+            hospital: hospitalActualizado
+        });
+
+    } catch (error) {
+        console.log('Error al actualizar Hospital', error)
+        res.status(500).json({
+            ok: false,
+            msg: ' actualizarHospital'
+        });
+
+    }
 }
 
 const borrarHospital = async (req, res = response) => {
-    res.json({
-        ok: true,
-        msg: ' borrarHospital'
-    });
+    const hospitalId = req.params.id;
+
+    try {
+        const hospitalDb = await Hospital.findById(hospitalId);
+
+        if (!hospitalDb) {
+            return res.status(404).json({
+                ok: true,
+                msg: 'no existe hospital con ese registro.'
+            });
+        }
+
+        await Hospital.findByIdAndDelete(hospitalId);
+
+        return res.json({
+            ok: true,
+            msg: 'Hospital borrado'
+        });
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({
+            ok: true,
+            msg: 'Error al borrar hospital, hable con administrador.'
+        });
+    }
 }
 
 module.exports = {

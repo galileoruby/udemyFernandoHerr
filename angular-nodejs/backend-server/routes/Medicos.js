@@ -1,6 +1,6 @@
 const { Router } = require('express');
 const router = Router();
-const { check, param } = require('express-validator');
+const { check, param, body } = require('express-validator');
 const { validarJWT } = require('../middlewares/validar-JWT');
 
 const {
@@ -26,11 +26,23 @@ router.post('/',
     ], crearMedico);
 
 router.put('/:id',
-    [validarJWT],
+    [validarJWT,
+        param('id', 'el Id es requerido')
+            .isMongoId()
+            .withMessage('El id proporcionado no es un identificador valido'),
+        body('nombre', 'El nombre de medico es requerido').not().isEmpty(),
+        body('hospital', 'El hospital es requerido').not().isEmpty(),
+        validarCampos
+    ],
     actualizarMedico)
 
 router.delete('/:id',
-    [validarJWT],
+    [validarJWT,
+        param('id', 'el Id es requerido')
+            .isMongoId()
+            .withMessage('El id proporcionado no es un identificador valido'),
+        validarCampos
+    ],
     borrarMedico);
 
 module.exports = router;

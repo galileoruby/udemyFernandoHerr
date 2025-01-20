@@ -5,8 +5,8 @@ const { generarJWT } = require('../helpers/jwt');
 const { googleVerify } = require('../helpers/google-verify');
 
 const loginUser = async (req, res = response) => {
-
     const { email, password } = req.body;
+
     try {
         const usuarioDb = await Usuario.findOne({ email });
 
@@ -35,7 +35,6 @@ const loginUser = async (req, res = response) => {
             msg: 'login exitoso',
             adicional: token
         });
-
     } catch (error) {
         res.status(500).json({
             ok: false,
@@ -45,8 +44,7 @@ const loginUser = async (req, res = response) => {
 }
 
 const logingGoogle = async (req, res = response) => {
-
-    try {
+    try {        
         const { name, email, picture } = await googleVerify(req.body.token);
         const usuarioDb = await Usuario.findOne({ email });
         let usuario;
@@ -79,7 +77,27 @@ const logingGoogle = async (req, res = response) => {
     }
 }
 
+const renewToken = async (req, res = response) => {
+    try {
+        const token = await generarJWT(req.id);
+
+        res.status(201).json({
+            ok: true,
+            // token: req.body.token
+            msg:'renew token',
+            token
+        });
+    } catch (error) {
+        console.log('Error en renew ', error)
+        res.status(500).json({
+            ok: true,
+            msg: 'Hable con administrador'
+        });
+    }
+}
+
 module.exports = {
     loginUser,
-    logingGoogle
+    logingGoogle,
+    renewToken
 }
