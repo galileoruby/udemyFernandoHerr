@@ -4,14 +4,14 @@ const encriptadorJs = require('bcryptjs');
 const { generarJWT } = require('../helpers/jwt');
 const { googleVerify } = require('../helpers/google-verify');
 
-const loginUser = async (req, res = response) => {
+const loginUser = async (req, res = response, next) => {
     const { email, password } = req.body;
 
     try {
         const usuarioDb = await Usuario.findOne({ email });
 
         if (!usuarioDb) {
-            res.status(404).json({
+            return res.status(404).json({
                 ok: true,
                 msg: 'email no valido'
             });
@@ -21,7 +21,7 @@ const loginUser = async (req, res = response) => {
         const validPassword = encriptadorJs.compareSync(password, usuarioDb.password);
 
         if (!validPassword) {
-            res.status(400).json({
+            return res.status(400).json({
                 ok: true,
                 msg: 'Contraseña no valida'
             });
@@ -33,7 +33,7 @@ const loginUser = async (req, res = response) => {
         res.status(200).json({
             ok: true,
             msg: 'login exitoso',
-            adicional: token
+            token
         });
     } catch (error) {
         res.status(500).json({
@@ -44,7 +44,7 @@ const loginUser = async (req, res = response) => {
 }
 
 const logingGoogle = async (req, res = response) => {
-    try {        
+    try {
         const { name, email, picture } = await googleVerify(req.body.token);
         const usuarioDb = await Usuario.findOne({ email });
         let usuario;
@@ -80,11 +80,9 @@ const logingGoogle = async (req, res = response) => {
 const renewToken = async (req, res = response) => {
     try {
         const token = await generarJWT(req.id);
-
         res.status(201).json({
-            ok: true,
-            // token: req.body.token
-            msg:'renew token',
+            ok: true,            
+            msg: 'renew token',
             token
         });
     } catch (error) {

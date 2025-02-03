@@ -4,3 +4,14 @@
     -webkit-animation-fill-mode: both;
     animation-fill-mode: both
 }
+
+#googleBtn{
+    align-items: center;
+    display: flex;
+    justify-content: center;
+    text-align: center;
+}
+
+.cursor{
+    cursor: pointer;
+}

@@ -20,8 +20,7 @@ router.get('/',
     getUsuarios);
 
 router.post('/',
-    [
-        validarJWT,
+    [        
         check('nombre', 'Nombre es requerido').not().isEmpty(),
         check('password', 'Password es requerido').not().isEmpty(),
         check('email', 'email es requerido').isEmail(),
@@ -44,7 +43,6 @@ router.put('/:id',
         check('role', 'Role es obligatorio').not().isEmpty(),
         validarCampos
     ], actualizarUsuario);
-
 
 router.delete('/:id', [
     validarJWT,
