@@ -27,7 +27,7 @@ export class LoginComponent implements AfterViewInit {
 
     this.loginForm = this.fb.group<LoginForm>({
       email: [localStorage.getItem('email') || '', [Validators.required, Validators.email]] as unknown as string,
-      password: ['', [Validators.required]] as unknown as string,
+      password: ['123456', [Validators.required]] as unknown as string,
       remember: [true, [Validators.requiredTrue]] as unknown as boolean
     });
   }
@@ -54,7 +54,6 @@ export class LoginComponent implements AfterViewInit {
         this.ngZone.run(()=>{
           this.router.navigateByUrl('/');
         });
-
       });
   }
 

@@ -78,12 +78,15 @@ const logingGoogle = async (req, res = response) => {
 }
 
 const renewToken = async (req, res = response) => {
-    try {
+    try {        
+        const usuario = await Usuario.findById(req.id,"nombre email role img rol google");        
+
         const token = await generarJWT(req.id);
         res.status(201).json({
             ok: true,            
             msg: 'renew token',
-            token
+            token,
+            usuario
         });
     } catch (error) {
         console.log('Error en renew ', error)

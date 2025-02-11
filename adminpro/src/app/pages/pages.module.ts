@@ -1,7 +1,7 @@
 import { NgModule  } from '@angular/core';
 import {RouterModule} from '@angular/router'
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { ProgressComponent } from './progress/progress.component';
@@ -10,6 +10,7 @@ import { PagesComponent } from './pages.component';
 import { SharedModule } from '../shared/shared.module';
 
 import { ComponentsModule } from '../components/components.module';
+import { PerfilComponent } from './pages/perfil/perfil.component';
 
 
 //todo::Una cosa es importar rutas con const rutas: Routes 
@@ -21,6 +22,7 @@ import { ComponentsModule } from '../components/components.module';
     ProgressComponent,
     Grafica1Component,
     PagesComponent,
+    PerfilComponent,
     
   ],
   exports: [
@@ -36,6 +38,7 @@ import { ComponentsModule } from '../components/components.module';
     //todo:: sino importamos  el contenedor e los hijos mandara un error de <router-outlet> </router-outlet> invalido
     //todo:: o importar Router module
     // AppRoutingModule
+    ReactiveFormsModule,
     RouterModule,
     FormsModule,
     ComponentsModule

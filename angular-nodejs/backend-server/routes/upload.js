@@ -23,7 +23,6 @@ router.put('/:tipo/:id',
     uploadFile);
 
 router.get('/:tipo/:foto',
-    [validarJWT],
     retornaImagen);
 
 module.exports = router

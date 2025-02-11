@@ -24,7 +24,7 @@ const uploadFile = async (req, res = response) => {
     //validar que exista archivo
     if (!req.files || Object.keys(req.files).length == 0) {
         return res.status(404).json({
-            ok: true,
+            ok: false,
             msg: 'Necesario archivo para guardar'
         });
     }
@@ -37,7 +37,7 @@ const uploadFile = async (req, res = response) => {
 
     if (!extensionesValidas.includes(extensionArchivo)) {
         return res.status(404).json({
-            ok: true,
+            ok: false,
             msg: 'No es una extensión permitida.'
         });
     }
@@ -67,7 +67,8 @@ const uploadFile = async (req, res = response) => {
         msg: 'archivo subido',
         tipo,
         path,
-        id
+        id,
+        nombreArchivo
     });
 }
 
