@@ -23,17 +23,34 @@ const UsuarioSchema = Schema({
         require: true,
         default: 'USER_ROLE'
     },
-    google: {   
+    google: {
         type: Boolean,
         default: false
     }
+}, {
+    // toJSON: {
+    //     virtuals: true,
+    //     transform: function (doc, ret) {
+    //         ret.id = ret._id;
+    //         delete ret._id;
+    //         delete ret.__v;
+    //     }
+    // },
+    // toObject: {
+    //     virtuals: true,
+    //     transform: function (doc, ret) {
+    //         ret.id = ret._id;
+    //         delete ret._id;
+    //         delete ret.__v;
+    //     }
+    // }
 });
 
 UsuarioSchema.method('toJSON', function () {
     const { __V, _id, password, ...object } = this.toObject();
-    object.id= _id;    
+    object.id = _id;
     return object;
 });
-
+ 
 
 module.exports = model('Usuario', UsuarioSchema);

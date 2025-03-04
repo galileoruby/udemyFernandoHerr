@@ -9,12 +9,16 @@ export class Usuario {
         public password?: string,
         public google?: boolean,
         public img?: string,
-        public role?: string,
-        public uid?: string,
+        public rol?: string,
+        public id?: string,
     ) { }
 
     get imagenUrl() {        
         let currentImg: string = `${apiUrl}/upload/usuarios/no-image`;
+
+        if (!this.img){
+            return currentImg;
+        }
 
         if (this.img?.startsWith('https')){
             return this.img;

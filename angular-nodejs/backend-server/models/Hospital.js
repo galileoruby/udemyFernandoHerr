@@ -1,5 +1,6 @@
 const { Schema, model, collection } = require('mongoose');
 
+const {mongoose}= require('mongoose');
 const HospitalSchema = Schema({
     nombre: {
         type: String,
@@ -24,6 +25,17 @@ HospitalSchema.method('toJSON', function () {
     object.id = _id;
     return object;
 });
+
+
+// // Crear un virtual para id
+// HospitalSchema.virtual('id').get(function () {
+//     return this._id.toHexString();
+//   });
+  
+//   // Asegurarse de que el virtual se incluya en las respuestas JSON
+//   HospitalSchema.set('toJSON', {
+//     virtuals: true,
+//   });
 
 
 module.exports = model('Hospital', HospitalSchema);

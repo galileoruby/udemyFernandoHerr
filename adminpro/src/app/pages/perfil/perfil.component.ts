@@ -77,7 +77,7 @@ export class PerfilComponent implements OnInit {
 
   subirImagen() {
     this.uploadService
-      .actualizarFoto(this.imagenSubir as any, "usuarios", this.usuario.uid as string)
+      .actualizarFoto(this.imagenSubir as any, "usuarios", this.usuario.id as string)
       .then(data => {
         if (!data.ok) {
           Swal.fire('Error',  data.msg, 'error');
@@ -87,6 +87,6 @@ export class PerfilComponent implements OnInit {
         Swal.fire('Guardada', 'Imagen actualizad', 'success');
       }).catch((e) => {
         Swal.fire('Error', e.error.msg, 'error');
-      })
+      });
   }
 }

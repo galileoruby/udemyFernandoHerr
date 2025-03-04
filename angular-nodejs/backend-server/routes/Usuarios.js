@@ -40,7 +40,7 @@ router.put('/:id',
             .withMessage('El id proporcionado no es un identificador valido').bail(),
         check('nombre', 'Nombre es requerido').not().isEmpty(),
         check('email', 'email es requerido').isEmail(),
-        check('role', 'Role es obligatorio').not().isEmpty(),
+        check('rol', 'Rol es obligatorio').not().isEmpty(),
         validarCampos
     ], actualizarUsuario);
 

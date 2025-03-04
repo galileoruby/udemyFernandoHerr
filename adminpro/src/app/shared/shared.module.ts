@@ -14,8 +14,8 @@ import { SidebarComponent } from './sidebar/sidebar.component';
   ],
   exports: [
     BreadcrumbsComponent,
-    HeaderComponent,
     SidebarComponent,
+    HeaderComponent,
     RouterLink,
     RouterOutlet
   ],

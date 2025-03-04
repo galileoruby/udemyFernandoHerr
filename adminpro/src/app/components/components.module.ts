@@ -1,13 +1,14 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { IncrementadorComponent } from './incrementador/incrementador.component';
 import { FormsModule,ReactiveFormsModule } from '@angular/forms';
+import { CommonModule } from '@angular/common';
 
-
+import { IncrementadorComponent } from './incrementador/incrementador.component';
+import { ModalImagenComponent } from './modal-imagen/modal-imagen.component';
 
 @NgModule({
   declarations: [
-    IncrementadorComponent
+    IncrementadorComponent,
+    ModalImagenComponent
   ],
   imports: [
     CommonModule,
@@ -15,7 +16,8 @@ import { FormsModule,ReactiveFormsModule } from '@angular/forms';
     ReactiveFormsModule
   ],
   exports:[
-    IncrementadorComponent
+    IncrementadorComponent,
+    ModalImagenComponent
   ]
 })
 export class ComponentsModule { }

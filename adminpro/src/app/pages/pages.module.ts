@@ -10,7 +10,9 @@ import { PagesComponent } from './pages.component';
 import { SharedModule } from '../shared/shared.module';
 
 import { ComponentsModule } from '../components/components.module';
-import { PerfilComponent } from './pages/perfil/perfil.component';
+import { PerfilComponent } from './perfil/perfil.component';
+import { UsuariosComponent } from './mantenimiento/usuarios/usuarios.component';
+import { AccountSettingsComponent } from './account-settings/account-settings.component';
 
 
 //todo::Una cosa es importar rutas con const rutas: Routes 
@@ -23,6 +25,8 @@ import { PerfilComponent } from './pages/perfil/perfil.component';
     Grafica1Component,
     PagesComponent,
     PerfilComponent,
+    UsuariosComponent,
+    AccountSettingsComponent,
     
   ],
   exports: [

@@ -47,25 +47,30 @@ const getTodo = async (req, res = response) => {
 const getDocumentosColeccion = async (req, res = response) => {
     const { search, tabla } = req.params;
     const regex = new RegExp(search, 'i');
+    const filter = {
+        nombre: { $regex: regex },
+        _id: { $ne: req.id }
+
+    }
     let data = [];
 
     try {
         switch (tabla) {
             case 'medicos':
                 data = await Medico.find({ "nombre": regex })
-                    .populate('usuario', 'nombre img')
+                    .populate('usuario', 'nombre img rol google')
                     .populate('hospital', 'nombre img')
                     .sort({ nombre: 'asc' });
                 break;
 
             case 'hospitales':
-                data = await Hospital.find({ "nombre": regex })
-                    .populate('usuario', 'nombre img')
-                    .sort({ nombre: 'asc' });
+                data = await Hospital.find({ "nombre": regex, notMe })
+                    .sort({ nombre: 'asc' })
+                    .populate('usuario', 'nombre img google  rol');
                 break;
 
             case 'usuarios':
-                data = await Usuario.find({ "nombre": regex }, "nombre email role img")
+                data = await Usuario.find(filter, "nombre email rol img google")
                     .sort({ nombre: 'asc' });
                 break;
 

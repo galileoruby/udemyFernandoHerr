@@ -6,6 +6,7 @@ import RegisterForm from '../interfaces/register-form.interface';
 import { environment } from 'src/environments/environment';
 import LoginForm from '../interfaces/login-form.interface';
 import { Usuario } from 'src/models/usuario.model';
+import { CargarUsuarios } from '../interfaces/cargar-usuarios.interface';
 
 const base_Url = environment.base_url;
 
@@ -23,8 +24,17 @@ export class UsuarioService {
   logout() {
     localStorage.removeItem('token');
     // this.ngZone.run(()=>{    });
-    google.accounts.id.revoke('immerzung@gmail.com', () => { });
+    // google.accounts.id.revoke('immerzung@gmail.com', () => { });
   }
+
+  get headers() {
+    return {
+      headers: {
+        'x-token': this.token
+      }
+    }
+  }
+
 
   googleInit() {
     gapi.load('auth2', () => {
@@ -50,12 +60,11 @@ export class UsuarioService {
         } = resp.usuario;
 
         this.usuario = new Usuario(nombre, email, '', google, img, rol, id);
-        return true
-
+        return true;
       }), map(resp => true),
       catchError(error => {
         console.log(error);
-        return of(false)
+        return of(false);
       })
     );
   }
@@ -65,7 +74,7 @@ export class UsuarioService {
   }
 
   get idusuario(): string {
-    return this.usuario.uid || '';
+    return this.usuario.id || '';
   }
 
   crearUsuario(formData: RegisterForm) {
@@ -77,18 +86,16 @@ export class UsuarioService {
       );
   }
 
-  actualizarPerfil(data: { email: string, nombre: string, role: string }) {
-
+  
+  actualizarPerfil(data: { email: string, nombre: string, rol: string }) {
     data = {
       ...data,
-      role: this.usuario.role ?? ''
+      rol: this.usuario.rol!
     }
 
-    return this.http.put(`${base_Url}/usuarios/${this.idusuario}`, data, {
-      headers: {
-        'x-token': this.token
-      }
-    }).pipe(
+    return this.http.put(`${base_Url}/usuarios/${this.idusuario}`, data,
+      this.headers
+    ).pipe(
       tap((res: any) => {
         this.usuario.nombre = res.usuario.nombre;
       }));
@@ -110,5 +117,39 @@ export class UsuarioService {
           localStorage.setItem('token', resp.token);
         })
       );
+  }
+
+  cargarUsuarios(desde: number = 0) {
+
+    const url = `${base_Url}/usuarios?desde=${desde}`;
+    return this.http.get<CargarUsuarios>(url, this.headers)
+      .pipe(
+
+        map(resp => {
+          console.log('ssss');
+          const usuarios = resp.usuarios
+            .map(usr => new Usuario(usr.nombre, usr.email, usr.password, usr.google, usr.img, usr.rol, usr.id));
+
+          return {
+            total: resp.total,
+            usuarios
+          };
+        })
+      )
+  }
+
+  eliminarUsuario(usuario:Usuario){
+    const url = `${base_Url}/usuarios/${usuario.id}`;
+    return this.http.delete(url, this.headers);
+
+  }
+
+  guardarUsuario(usuario: Usuario) {
+    return this.http.put(`${base_Url}/usuarios/${usuario.id}`, usuario,
+      this.headers
+    ).pipe(
+      tap((res: any) => {
+        this.usuario.nombre = res.usuario.nombre;
+      }));
   }
 }
