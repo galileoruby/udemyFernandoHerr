@@ -1,0 +1,111 @@
+<div class="row animated fadeIn fast">
+  <div class="col-12">
+    <div class="card">
+      <div class="card-body">
+        <input
+          type="text"
+          #txtBusqueda
+          class="form-control"
+          placeholder="Buscar Medicos"
+        />
+      </div>
+    </div>
+  </div>
+</div>
+<div class="row animated fadeIn fast" *ngIf="this.cargando">
+  <div class="col-12">
+    <div class="card">
+      <div class="alert alert-info text-center">
+        <h4 class="alert-heading">Cargando</h4>
+        <i class="fa fa-spin fa-refresh fa-2x"> </i>
+        <p class="mb-0">Por favor espere</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="row" *ngIf="!this.cargando">
+  <div class="col-12">
+    <div class="card">
+      <div class="card-body">
+        <div class="row">
+          <div class="col-10">
+            <h6 class="card-subtitle">Medicos registrados</h6>
+          </div>
+          <div class="col">
+            <button
+              data-container="body"
+              title="Popover title"
+              data-toggle="popover"
+              data-placement="top"
+              class="cursor"
+              [routerLink]="['/medico/nuevo']"
+              class="btn btn-secondary"
+            >
+              <i class="fa fa-pencil text-inverse m-r-10"></i>
+              Nuevo
+            </button>
+          </div>
+        </div>
+        <h4 class="card-title">Medicos</h4>       
+        <div class="table-responsive">
+          <table class="table table-striped">
+            <thead>
+              <tr>
+                <th class="w100">Foto</th>
+                <th>Nombre</th>
+                <th class="w100 text-nowrap">Acciones</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let currentMedico of medicos">
+                <td>
+                  <img
+                    class="avatar cursor w100"
+                    [src]="currentMedico.img! | imagen : 'medicos'"
+                    alt="imagen de medico"
+                    (click)="abriModal(currentMedico)"
+                  />
+                </td>
+                <td>
+                  <input
+                    type="text"
+                    class="form-control"
+                    readonly
+                    placeholder="Nombre hospital"
+                    [(ngModel)]="currentMedico.nombre"
+                  />
+                </td>
+                <td class="text-nowrap text-center">
+                  <a
+                    data-container="body"
+                    title="Popover title"
+                    data-toggle="popover"
+                    data-placement="top"
+                    [routerLink]="['/medico', currentMedico.id]"
+                    class="cursor"
+                  >
+                    <i class="fa fa-pencil text-inverse m-r-10 fa-2x"></i>
+                  </a>
+                  <a
+                    (click)="eliminarMedico(currentMedico.id)"
+                    data-container="body"
+                    title="Popover title"
+                    data-toggle="popover"
+                    data-placement="top"
+                    data-content="Vivamus sagittis lacus vel augue laoreet rutrum faucibus."
+                    class="cursor"
+                  >
+                    <i class="fa fa-close text-danger fa-2x"></i>
+                  </a>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <button class="btn btn-secondary">Anterior</button>
+        <button class="btn btn-secondary">Siguiente</button>
+      </div>
+    </div>
+  </div>
+</div>

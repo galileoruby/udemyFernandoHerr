@@ -8,21 +8,27 @@ import { authGuard } from '../auth/login/guards/auth.guard';
 import { PerfilComponent } from './perfil/perfil.component';
 import { UsuariosComponent } from './mantenimiento/usuarios/usuarios.component';
 import { AccountSettingsComponent } from './account-settings/account-settings.component';
+import { HospitalesComponent } from './mantenimiento/hospitales/hospitales.component';
+import { MedicosComponent } from './mantenimiento/medicos/medicos.component';
+import { MedicoComponent } from './mantenimiento/medicos/medico.component';
 
 const routes: Routes = [
     {
         path: '', component: PagesComponent,
         canActivate:[authGuard],
         children: [
-            { path: 'dashboard', component: DashboardComponent },
-            { path: 'progress', component: ProgressComponent },
-            { path: 'grafica1', component: Grafica1Component },
-            { path: 'account-settings', component: AccountSettingsComponent, data: { titulo: 'Settings' } },
-            { path: 'perfil', component: PerfilComponent },
+            { path: 'dashboard', component: DashboardComponent ,data:{titulo:'dashboard::App'} },
+            { path: 'progress', component: ProgressComponent ,data:{titulo:'progreso::App'} },
+            { path: 'grafica1', component: Grafica1Component ,data:{titulo:'graficos::App'} },
+            { path: 'account-settings', component: AccountSettingsComponent, data: { titulo: 'Settings::App' } },
+            { path: 'perfil', component: PerfilComponent ,data:{titulo:'perfiles de acero::App'} },
             { path: '', redirectTo: '/dashboard', pathMatch: 'full' },
             
             //mantenimiento
-            { path: 'usuarios', component: UsuariosComponent, data:{titulo:'Usuarios de aplicacion'} },
+            { path: 'usuarios', component: UsuariosComponent, data:{titulo:'Usuarios::App'} },
+            { path: 'hospitales', component: HospitalesComponent, data:{titulo:'Hospitales::App'} },
+            { path: 'medicos', component: MedicosComponent, data:{titulo:'Medicos::App'} },
+            { path: 'medico/:id', component: MedicoComponent, data:{titulo:'Medico para modificar::App'} },
         ]
     },
 

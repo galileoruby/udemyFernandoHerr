@@ -30,6 +30,21 @@ const crearMedico = async (req, res = response) => {
             ...req.body
         });
 
+        //validar si existe el hospital
+
+        console.log('hospital req:', req.body);
+        console.log('hospital params:', req.params);
+
+        const hospitalCurrent = await Hospital.findById(req.body.hospital);
+
+        if (!hospitalCurrent){
+
+         return    res.status(404).json({
+                ok: false,
+                msg: `No existe hospital seleccionado. ${req.body.hospital}`
+            });
+        }
+
         await currentDbMedico.save();
 
         res.json({
@@ -112,10 +127,40 @@ const borrarMedico = async (req, res = response) => {
         });
     }
 }
+const getMedicoById = async (req, res = response) => {
+    const idMedico = req.params.id;
+    try {
+        const medico = await Medico.findById(idMedico)
+        .populate('usuario', 'nombre')
+        .populate('hospital', 'nombre');
+
+        if (!medico) {
+            return res.status(404).json({
+                ok: false,
+                msg: 'Medico no encontrado.'
+            });
+        }
+        
+        
+
+        return res.status(200).json({
+            ok: true,
+            msg: 'Obtenido exitosamente',
+            medico
+
+        });
+    } catch (error) {
+        res.status(500).json({
+            ok: true,
+            msg: 'Error al borrar Medico, hable con administrador.'
+        });
+    }
+}
 
 module.exports = {
     getMedicos,
     crearMedico,
     actualizarMedico,
-    borrarMedico
+    borrarMedico,
+    getMedicoById
 }

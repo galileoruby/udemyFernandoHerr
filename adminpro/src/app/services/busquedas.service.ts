@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { map, Observable, tap, catchError, of } from 'rxjs';
 
 import { environment } from 'src/environments/environment';
+import { MedicoColeccionBusquedaBaseResponseModel, MedicoColeccionBusquedaResponseModel } from 'src/models/medicoBusqueda.model';
 
 const base_Url = environment.base_url;
 
@@ -13,16 +14,9 @@ export interface UsuarioResponse {
   id: string;
   role:string;
   google: boolean;
-
 }
 
-interface Medico {
-  id: string;
-  nombre: string;
-  especialidad: string;
-  // Otras propiedades...
-}
-
+ 
 interface Hospital {
   id: string;
   nombre: string;
@@ -55,15 +49,15 @@ export class BusquedasService {
   }
 
   buscar(tipo: 'usuarios', termino?: string): Observable<UsuarioResponse[]>;
-  buscar(tipo: 'medicos', termino?: string): Observable<Medico[]>;
+  buscar(tipo: 'medicos', termino?: string): Observable<MedicoColeccionBusquedaBaseResponseModel>;
   buscar(tipo: 'hospitales', termino?: string): Observable<Hospital[]>;
 
-  buscar(tipo: 'usuarios' | 'medicos' | 'hospitales', termino: string = '') {
+  buscar(tipo: 'usuarios' | 'medicos' | 'hospitales', termino: string = ''): Observable<any> {
     const url = `${base_Url}/todo/coleccion/${tipo}/${termino}`;
     console.log('busqueda');
-    return this.http.get<RespuestaBusqueda<UsuarioResponse | Medico | Hospital>>(url, this.headers)
+    return this.http.get<RespuestaBusqueda<UsuarioResponse | MedicoColeccionBusquedaResponseModel | Hospital>>(url, this.headers)
       .pipe(
-        map((resp: RespuestaBusqueda<UsuarioResponse | Medico | Hospital>) => resp.query)
+        map((resp: RespuestaBusqueda<UsuarioResponse | MedicoColeccionBusquedaResponseModel | Hospital>) => resp.query)
       );
   }
 }

@@ -9,10 +9,15 @@ import { Grafica1Component } from './grafica1/grafica1.component';
 import { PagesComponent } from './pages.component';
 import { SharedModule } from '../shared/shared.module';
 
+import { PipesModule } from '../pipes/pipes.module';
+
 import { ComponentsModule } from '../components/components.module';
 import { PerfilComponent } from './perfil/perfil.component';
 import { UsuariosComponent } from './mantenimiento/usuarios/usuarios.component';
 import { AccountSettingsComponent } from './account-settings/account-settings.component';
+import { HospitalesComponent } from './mantenimiento/hospitales/hospitales.component';
+import { MedicosComponent } from './mantenimiento/medicos/medicos.component';
+import { MedicoComponent } from './mantenimiento/medicos/medico.component';
 
 
 //todo::Una cosa es importar rutas con const rutas: Routes 
@@ -27,6 +32,9 @@ import { AccountSettingsComponent } from './account-settings/account-settings.co
     PerfilComponent,
     UsuariosComponent,
     AccountSettingsComponent,
+    HospitalesComponent,
+    MedicosComponent,
+    MedicoComponent,
     
   ],
   exports: [
@@ -45,7 +53,8 @@ import { AccountSettingsComponent } from './account-settings/account-settings.co
     ReactiveFormsModule,
     RouterModule,
     FormsModule,
-    ComponentsModule
+    ComponentsModule,
+    PipesModule
   ]
 })
 export class PagesModule { }

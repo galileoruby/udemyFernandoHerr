@@ -7,7 +7,8 @@ const {
     getMedicos,
     crearMedico,
     actualizarMedico,
-    borrarMedico
+    borrarMedico,
+    getMedicoById
 } = require('../controllers/Medicos');
 
 const { validarCampos } = require('../middlewares/validar-campos');
@@ -44,5 +45,14 @@ router.delete('/:id',
         validarCampos
     ],
     borrarMedico);
+
+router.get ('/:id',
+    [validarJWT,
+        param('id', 'el Id es requerido')
+            .isMongoId()
+            .withMessage('El id proporcionado no es un identificador valido'),
+        validarCampos
+    ],
+    getMedicoById);
 
 module.exports = router;

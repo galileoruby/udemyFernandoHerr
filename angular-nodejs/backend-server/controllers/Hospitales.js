@@ -6,11 +6,31 @@ const { generarJWT } = require('../helpers/jwt');
 const getHospitales = async (req, res) => {
     // const usuarios = await Hospital.find({}, "nombre email role password");
     try {
-        const hospitales = await Hospital
+        const hospitalesData = await Hospital
             .find({})
-            .populate('usuario', 'nombre img');
+            .populate('usuario', 'nombre img')
+            .sort({nombre:'asc'})
+            .lean();
 
-        res.status(500).json({
+            const hospitales = hospitalesData.map(item => {
+                return {
+                  ...item,
+                  id: item._id, // Asignar _id principal a id
+                  usuario: {
+                    ...item.usuario,
+                    id: item.usuario?._id, // Asignar _id de usuario a id
+                  }
+                };
+              });
+
+              hospitales.forEach(item => {
+                delete item._id;
+                if (item.usuario) {
+                  delete item.usuario._id;
+                }
+              });
+                  
+        res.status(200).json({
             ok: true,
             hospitales
         });

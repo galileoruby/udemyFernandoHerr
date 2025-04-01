@@ -59,7 +59,7 @@ export class ModalImagenComponent {
           this.cerrarModal();
           return;
         }
-        Swal.fire('Guardada', 'Imagen actualizad', 'success');
+        Swal.fire('Guardada', 'Imagen actualizada', 'success');
         this.modalImagenService.nuevaImagen.emit(data.msg);
         this.cerrarModal();
       }).catch((e) => {

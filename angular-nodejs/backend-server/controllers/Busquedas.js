@@ -26,7 +26,6 @@ const getTodo = async (req, res = response) => {
                 ok: false,
                 msg: 'hable con administrador'
             })
-
         });
 
     try {
@@ -53,20 +52,66 @@ const getDocumentosColeccion = async (req, res = response) => {
 
     }
     let data = [];
+    let modifiedData = [];
 
     try {
         switch (tabla) {
             case 'medicos':
-                data = await Medico.find({ "nombre": regex })
+                modifiedData = await Medico.find({ "nombre": regex })
                     .populate('usuario', 'nombre img rol google')
                     .populate('hospital', 'nombre img')
-                    .sort({ nombre: 'asc' });
+                    .sort({ nombre: 'asc' })
+                    .lean();
+
+                    data = modifiedData.map(item => {
+                        return {
+                          ...item,
+                          id: item._id, // Asignar _id principal a id
+                          usuario: {
+                            ...item.usuario,
+                            id: item.usuario?._id, // Asignar _id de usuario a id
+                          },
+                          hospital: {
+                            ...item.hospital,
+                            id: item.hospital?._id, // Asignar _id de usuario a id
+                          }
+                        };
+                      });
+
+                      data.forEach(item => {
+                        delete item._id;
+                        if (item.usuario) {
+                          delete item.usuario._id;
+                        }
+                        if (item.hospital) {
+                          delete item.hospital._id;
+                        }
+                      });
                 break;
 
             case 'hospitales':
-                data = await Hospital.find({ "nombre": regex, notMe })
+                modifiedData = await Hospital.find(filter)
+                    .populate('usuario', 'nombre img rol google')
                     .sort({ nombre: 'asc' })
-                    .populate('usuario', 'nombre img google  rol');
+                    .lean();
+
+                data = modifiedData.map(item => {
+                    return {
+                      ...item,
+                      id: item._id, // Asignar _id principal a id
+                      usuario: {
+                        ...item.usuario,
+                        id: item.usuario?._id, // Asignar _id de usuario a id
+                      }
+                    };
+                  });
+
+                  data.forEach(item => {
+                    delete item._id;
+                    if (item.usuario) {
+                      delete item.usuario._id;
+                    }
+                  });
                 break;
 
             case 'usuarios':
