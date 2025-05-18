@@ -9,7 +9,7 @@ const getTodo = async (req, res = response) => {
 
     const [usuarios, medicos, hospitales] = await Promise.all(
         [
-            Usuario.find({ "nombre": regex }, "nombre email role")
+            Usuario.find({ "nombre": regex }, "nombre email role img")
                 .sort({ nombre: 'asc' })
             ,
             Medico.find({ "nombre": regex })
@@ -138,7 +138,7 @@ const getDocumentosColeccion = async (req, res = response) => {
         });
     }
 }
-
+ 
 module.exports = {
     getTodo,
     getDocumentosColeccion

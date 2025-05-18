@@ -21,7 +21,7 @@ export class SidebarComponent {
   public clickState: boolean = false;
 
   public menuItems: any[] = [];
-  constructor(private usuarioService: UsuarioService, private sideBar: SidebarService) {
+  constructor(private usuarioService: UsuarioService, public sideBar: SidebarService) {
     this.usuario = usuarioService.usuario;
     this.menuItems = sideBar.menu;
   }

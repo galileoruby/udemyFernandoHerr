@@ -12,11 +12,10 @@ export interface UsuarioResponse {
   email: string;
   img: string;
   id: string;
-  role:string;
+  role:'ADMIN_ROLE' | 'USER_ROLE' ;
   google: boolean;
 }
 
- 
 interface Hospital {
   id: string;
   nombre: string;
@@ -46,6 +45,11 @@ export class BusquedasService {
         'x-token': this.token
       }
     }
+  }
+
+  busquedaGlobal(termino: string){
+    const url = `${base_Url}/todo/${termino}`;
+    return this.http.get(url,this.headers);
   }
 
   buscar(tipo: 'usuarios', termino?: string): Observable<UsuarioResponse[]>;

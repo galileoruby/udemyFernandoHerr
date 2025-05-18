@@ -1,0 +1,134 @@
+<div class="row animated fadeIn slow"> 
+    <div class="col-4">
+        <div class="card">
+            <div class="card-body">
+                <h3>Usuarios</h3>
+                <div 
+                *ngIf="usuarios.length === 0"
+                class="alert alert-info">
+                    <h4  class="alert-heading" >
+                    <p
+                     class="mb-0" >
+                        No hay usuarios con esta busqueda.
+                    </p>
+                    </h4>
+                </div>
+                <div class="table-responsive"
+                *ngIf="usuarios.length> 0"
+                >
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Avatar</th>
+                                <th>Nombre</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let usuarioReciente of usuarios" 
+                            class="animated fadeIn fast"
+                            >
+                                <td>
+                                    <img 
+                                    class ="w50"
+                                    [src] = "usuarioReciente.img | imagen:'usuarios'" />
+                                </td>                                
+                                <td>{{usuarioReciente.nombre}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-4">
+        <div class="card">
+            <div class="card-body">
+                <h3>Medicos</h3>
+                <div
+                *ngIf="medicos.length === 0"
+                class="alert alert-info">
+                    <h4
+                    
+                    class="alert-heading"
+                    >
+                    <p
+                     class="mb-0"
+                    >
+                        No hay medicos con esa busqueda.
+                    </p>
+                    </h4>
+
+                </div>
+                <div class="table-responsive"
+
+                *ngIf="medicos.length> 0"
+                >
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Avatar</th>
+                                <th>Nombre</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let medicoReciente of medicos" 
+                            class="animated fadeIn fast"
+                            (click)="abrirMedico(medicoReciente)"
+                            >
+                                <td>
+                                    <img 
+                                    class ="w50"
+                                    [src] = "medicoReciente.img | imagen:'usuarios'" />
+                                </td>                                
+                                <td>{{medicoReciente.nombre}}</td>
+                            </tr>                          
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-4">
+        <div class="card">
+            <div class="card-body">
+                <h3>Hospitales</h3>
+                <div 
+                *ngIf="hospitales.length === 0"
+                class="alert alert-info">
+                    <h4 class="alert-heading" >
+                    <p
+                     class="mb-0"
+                    >
+                        No hay hospitales con esa busqueda.
+                    </p>
+                    </h4>
+
+                </div>
+                <div class="table-responsive"
+                *ngIf="hospitales.length> 0"
+                >
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Avatar</th>
+                                <th>Nombre</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let hospitalReciente of hospitales" 
+                             class="animated fadeIn fast"
+                            >
+                                <td >                                    
+                                    <img 
+                                    class ="w50"
+                                    [src] = "hospitalReciente.img | imagen:'usuarios'" />
+                                </td>
+                                <td>{{hospitalReciente.nombre}}</td>                                 
+                            </tr>                          
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -11,24 +11,30 @@ import { AccountSettingsComponent } from './account-settings/account-settings.co
 import { HospitalesComponent } from './mantenimiento/hospitales/hospitales.component';
 import { MedicosComponent } from './mantenimiento/medicos/medicos.component';
 import { MedicoComponent } from './mantenimiento/medicos/medico.component';
+import { BusquedaComponent } from './busqueda/busqueda.component';
+import { adminGuard } from '../auth/login/guards/admin.guard';
 
 const routes: Routes = [
     {
         path: '', component: PagesComponent,
         canActivate:[authGuard],
         children: [
-            { path: 'dashboard', component: DashboardComponent ,data:{titulo:'dashboard::App'} },
-            { path: 'progress', component: ProgressComponent ,data:{titulo:'progreso::App'} },
-            { path: 'grafica1', component: Grafica1Component ,data:{titulo:'graficos::App'} },
             { path: 'account-settings', component: AccountSettingsComponent, data: { titulo: 'Settings::App' } },
+            { path: 'buscar/:termino', component: BusquedaComponent ,data:{titulo:'Busqueda global::App'} },
+            { path: 'dashboard', component: DashboardComponent ,data:{titulo:'dashboard::App'} },
+            { path: 'grafica1', component: Grafica1Component ,data:{titulo:'graficos::App'} },
             { path: 'perfil', component: PerfilComponent ,data:{titulo:'perfiles de acero::App'} },
+            { path: 'progress', component: ProgressComponent ,data:{titulo:'progreso::App'} },
             { path: '', redirectTo: '/dashboard', pathMatch: 'full' },
             
             //mantenimiento
-            { path: 'usuarios', component: UsuariosComponent, data:{titulo:'Usuarios::App'} },
             { path: 'hospitales', component: HospitalesComponent, data:{titulo:'Hospitales::App'} },
             { path: 'medicos', component: MedicosComponent, data:{titulo:'Medicos::App'} },
             { path: 'medico/:id', component: MedicoComponent, data:{titulo:'Medico para modificar::App'} },
+
+            //rutas de admin
+            //enviar en un arreglo los guards a implementar
+            { path: 'usuarios', canActivate:[adminGuard], component: UsuariosComponent, data:{titulo:'Usuarios::App'} },
         ]
     },
 

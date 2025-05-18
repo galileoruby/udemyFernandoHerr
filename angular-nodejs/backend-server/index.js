@@ -27,6 +27,7 @@ app.use(express.static('public'));
 
 //rutas
 app.use('/api/usuarios',routerUsuarios);
+app.use('/api/hospitales',ruterUsuarios);
 app.use('/api/hospitales',routerHospitales);
 app.use('/api/medicos',routerMedicos);
 app.use('/api/login',auth);

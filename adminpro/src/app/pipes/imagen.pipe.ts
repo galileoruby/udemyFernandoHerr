@@ -7,7 +7,7 @@ const api_url = environment.base_url;
   name: 'imagen'
 })
 export class ImagenPipe implements PipeTransform {
-  transform(img: string, tipo: 'usuarios' | 'medicos' | 'hospitales'): string {    
+  transform(img: string | null| undefined, tipo: 'usuarios' | 'medicos' | 'hospitales'): string {    
     let currentImg: string = `${api_url}/upload/usuarios/no-image`;
 
     if (!img) {
@@ -19,5 +19,4 @@ export class ImagenPipe implements PipeTransform {
     }
     return currentImg;
   }
-
 }

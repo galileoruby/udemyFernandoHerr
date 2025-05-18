@@ -18,7 +18,7 @@ import { AccountSettingsComponent } from './account-settings/account-settings.co
 import { HospitalesComponent } from './mantenimiento/hospitales/hospitales.component';
 import { MedicosComponent } from './mantenimiento/medicos/medicos.component';
 import { MedicoComponent } from './mantenimiento/medicos/medico.component';
-
+import { BusquedaComponent } from './busqueda/busqueda.component';
 
 //todo::Una cosa es importar rutas con const rutas: Routes 
 //todo: otra cosa es importar el componente , considerar esto
@@ -35,6 +35,7 @@ import { MedicoComponent } from './mantenimiento/medicos/medico.component';
     HospitalesComponent,
     MedicosComponent,
     MedicoComponent,
+    BusquedaComponent,
     
   ],
   exports: [
@@ -42,7 +43,6 @@ import { MedicoComponent } from './mantenimiento/medicos/medico.component';
     ProgressComponent,
     Grafica1Component,
     PagesComponent
-    
   ],
   imports: [
     CommonModule,

@@ -3,13 +3,14 @@ const Usuario = require('../models/Usuario');
 const encriptadorJs = require('bcryptjs');
 const { generarJWT } = require('../helpers/jwt');
 const { googleVerify } = require('../helpers/google-verify');
+const {ObtenerMenu} = require('../helpers/menu');
 
 const loginUser = async (req, res = response, next) => {
     const { email, password } = req.body;
 
     try {
         const usuarioDb = await Usuario.findOne({ email });
-
+        
         if (!usuarioDb) {
             return res.status(404).json({
                 ok: true,
@@ -33,7 +34,8 @@ const loginUser = async (req, res = response, next) => {
         res.status(200).json({
             ok: true,
             msg: 'login exitoso',
-            token
+            token,
+            menu: ObtenerMenu(usuarioDb.rol)
         });
     } catch (error) {
         res.status(500).json({
@@ -66,7 +68,8 @@ const logingGoogle = async (req, res = response) => {
         const token = await generarJWT(usuario.id);
         res.status(200).json({
             ok: true,
-            token
+            token,
+            menu: ObtenerMenu(usuario.rol)
         });
     } catch (error) {
         console.log('Error google ', error)
@@ -86,7 +89,8 @@ const renewToken = async (req, res = response) => {
             ok: true,            
             msg: 'renew token',
             token,
-            usuario
+            usuario,
+            menu: ObtenerMenu(usuario.rol)
         });
     } catch (error) {
         console.log('Error en renew ', error)

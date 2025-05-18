@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 import { RouterLink, RouterModule, RouterOutlet } from '@angular/router';
 
 import { BreadcrumbsComponent } from './breadcrumbs/breadcrumbs.component';
@@ -21,7 +22,8 @@ import { SidebarComponent } from './sidebar/sidebar.component';
   ],
   imports: [
     CommonModule,
-    RouterModule
+    RouterModule,
+    FormsModule //al importar FormsModule no dispara el submit o posteo completo de la pagina
   ]
 })
 export class SharedModule { }

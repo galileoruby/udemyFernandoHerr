@@ -1,8 +1,8 @@
 const { Router } = require('express');
 const router = Router();
 const { check, param } = require('express-validator');
-const { validarJWT } = require('../middlewares/validar-JWT');
-
+const { validarJWT, validarAdminRole,validarAdminRole_mismoUsuario } = require('../middlewares/validar-JWT');
+ 
 const {
     getUsuarios,
     crearUsuario,
@@ -20,7 +20,8 @@ router.get('/',
     getUsuarios);
 
 router.post('/',
-    [        
+[     
+    validarAdminRole,
         check('nombre', 'Nombre es requerido').not().isEmpty(),
         check('password', 'Password es requerido').not().isEmpty(),
         check('email', 'email es requerido').isEmail(),
@@ -30,6 +31,7 @@ router.post('/',
 router.put('/:id',
     [
         validarJWT,
+        validarAdminRole_mismoUsuario,
         param('id', 'el Id es requerido')
             .exists({ checkNull: true }).bail()
             // .notEmpty()
@@ -44,8 +46,10 @@ router.put('/:id',
         validarCampos
     ], actualizarUsuario);
 
-router.delete('/:id', [
+router.delete('/:id', 
+    [
     validarJWT,
+    validarAdminRole,
     param('id', 'el Id es requerido')
         .isMongoId()
         .withMessage('El id proporcionado no es un identificador valido'),

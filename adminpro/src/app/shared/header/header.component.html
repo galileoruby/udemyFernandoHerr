@@ -16,7 +16,7 @@
             src="../../../assets/images/logo-icon.png"
             alt="homepage"
             class="dark-logo"
-          />
+          />                    
           <!-- Light Logo icon -->
           <img
             src="../../../assets/images/logo-light-icon.png"
@@ -77,13 +77,18 @@
             href="javascript:void(0)"
             ><i class="ti-search"></i
           ></a>
-          <form class="app-search">
+          <form 
+          (submit)="buscar(txtTermino.value)"
+          class="app-search">
             <input
               type="text"
+              #txtTermino
               class="form-control"
-              placeholder="Search & enter"
+              placeholder="Buscar medicos, hospitales o usuarios"
             />
-            <a class="srh-btn"><i class="ti-close"></i></a>
+            <a class="srh-btn">
+              <i class="ti-close"></i>
+            </a>
           </form>
         </li>
         <!-- ============================================================== -->
