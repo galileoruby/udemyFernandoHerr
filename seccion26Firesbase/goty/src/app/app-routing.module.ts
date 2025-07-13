@@ -12,15 +12,6 @@ const routes: Routes = [
 ];
 
 
-bootstrapApplication(AppComponent, {
-  providers: [
-    provideRouter([
-  {path:'inicio', component:InicioComponent},
-  {path:'goty', component:GotyComponent},
-  { path:'**', pathMatch:'full' , redirectTo: 'inicio'}
-    ])
-  ]
-});
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
